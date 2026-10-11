@@ -5,7 +5,8 @@ A low-cost experimental system for measuring **mechanical vibration frequencies 
 **Measurement chain:**  
 Mechanical motion → reflected-beam variation → optical intensity variation → NPN-amplified detector signal → Arduino ADC acquisition → Python FFT → dominant vibration frequency
 
-📄 **[Read the full technical report](docs/Optical_Vibration_Sensing_Report.md)**
+📄 **[Full Technical Report (PDF)](docs/Optical_Vibration_Sensing_Report.pdf)**  
+📝 **[Technical Report (Markdown)](docs/Optical_Vibration_Sensing_Report.md)**
 
 ---
 
@@ -212,10 +213,19 @@ optical-vibration-sensing/
 ├── analysis/
 │   └── capture_and_fft.py
 ├── hardware/
-│   └── electrical_schematic.svg
+│   ├── electrical_schematic.svg
+│   ├── electrical_schematic.png
+│   └── setup.jpg
 ├── results/
-│   └── measurement_summary.svg
+│   ├── measurement_summary.svg
+│   ├── ruler_16Hz.png
+│   ├── ruler_coin_14Hz.png
+│   ├── motor_52Hz.png
+│   ├── piezo_124Hz.png
+│   ├── interference_before.png
+│   └── interference_after.png
 └── docs/
+    ├── Optical_Vibration_Sensing_Report.pdf
     └── Optical_Vibration_Sensing_Report.md
 ```
 
