@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1100" height="520" viewBox="0 0 1100 520">
+  <rect width="1100" height="520" fill="white"/>
+  <style>
+    .title{font:700 30px Arial;fill:#163a5c}
+    .label{font:600 20px Arial;fill:#1f2937}
+    .small{font:16px Arial;fill:#4b5563}
+    .axis{stroke:#9ca3af;stroke-width:2}
+    .bar{fill:#5b8db8}
+    .bar2{fill:#8fb3d4}
+  </style>
+  <text x="550" y="45" text-anchor="middle" class="title">Measured Dominant Frequency Components</text>
+  <line x1="150" y1="430" x2="1020" y2="430" class="axis"/>
+  <line x1="150" y1="90" x2="150" y2="430" class="axis"/>
+
+  <!-- Scale 0..140 Hz mapped to 0..780 px -->
+  <rect x="190" y="386" width="89" height="44" class="bar"/>
+  <text x="234" y="375" text-anchor="middle" class="label">16 Hz</text>
+  <text x="234" y="470" text-anchor="middle" class="small">Ruler</text>
+
+  <rect x="390" y="391" width="78" height="39" class="bar2"/>
+  <text x="429" y="380" text-anchor="middle" class="label">14 Hz</text>
+  <text x="429" y="470" text-anchor="middle" class="small">Ruler + €2</text>
+
+  <rect x="600" y="285" width="290" height="145" class="bar"/>
+  <text x="745" y="270" text-anchor="middle" class="label">52 Hz</text>
+  <text x="745" y="470" text-anchor="middle" class="small">DC motor</text>
+
+  <rect x="925" y="84" width="70" height="346" class="bar2"/>
+  <text x="960" y="70" text-anchor="middle" class="label">124 Hz</text>
+  <text x="960" y="470" text-anchor="middle" class="small">Piezo test</text>
+
+  <text x="40" y="270" transform="rotate(-90 40 270)" text-anchor="middle" class="small">Frequency [Hz]</text>
+  <text x="550" y="505" text-anchor="middle" class="small">Summary of experimentally reported dominant FFT bins; not a calibrated accuracy plot.</text>
+</svg>
