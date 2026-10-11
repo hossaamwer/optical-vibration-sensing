@@ -1,0 +1,64 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="700" viewBox="0 0 1200 700">
+  <rect width="1200" height="700" fill="white"/>
+  <style>
+    .box{fill:#f7f9fb;stroke:#1f4e79;stroke-width:3;rx:12;ry:12}
+    .title{font:700 28px Arial;fill:#163a5c}
+    .label{font:600 20px Arial;fill:#1f2937}
+    .small{font:16px Arial;fill:#374151}
+    .wire{stroke:#2f855a;stroke-width:4;fill:none}
+    .signal{stroke:#b83280;stroke-width:4;fill:none}
+    .power{stroke:#d97706;stroke-width:4;fill:none}
+  </style>
+
+  <text x="600" y="45" text-anchor="middle" class="title">Optical Vibration Sensor — Final Prototype Wiring</text>
+
+  <rect x="450" y="180" width="300" height="300" class="box"/>
+  <text x="600" y="225" text-anchor="middle" class="title">Arduino UNO</text>
+  <text x="470" y="285" class="label">A0</text>
+  <text x="470" y="350" class="label">D8</text>
+  <text x="690" y="350" class="label">D9</text>
+  <text x="470" y="420" class="label">GND</text>
+  <text x="680" y="420" class="label">5V</text>
+
+  <rect x="60" y="180" width="280" height="210" class="box"/>
+  <text x="200" y="220" text-anchor="middle" class="title">Optical Detector</text>
+  <text x="200" y="265" text-anchor="middle" class="label">Photodiode</text>
+  <text x="200" y="305" text-anchor="middle" class="small">+ NPN transistor amplification</text>
+  <text x="200" y="345" text-anchor="middle" class="small">Analog output to A0</text>
+
+  <rect x="850" y="120" width="290" height="220" class="box"/>
+  <text x="995" y="160" text-anchor="middle" class="title">3-Pin Laser Module</text>
+  <text x="880" y="220" class="label">S</text>
+  <text x="880" y="265" class="label">+5V</text>
+  <text x="880" y="310" class="label">GND</text>
+
+  <rect x="855" y="440" width="280" height="150" class="box"/>
+  <text x="995" y="480" text-anchor="middle" class="title">Piezo / Buzzer</text>
+  <text x="890" y="535" class="small">Signal: D8</text>
+  <text x="890" y="565" class="small">Return: GND</text>
+
+  <!-- Detector to A0 -->
+  <path d="M340 285 H450" class="signal"/>
+  <text x="390" y="270" text-anchor="middle" class="small">analog signal</text>
+
+  <!-- D9 to Laser S -->
+  <path d="M750 350 H820 V220 H850" class="signal"/>
+  <text x="805" y="205" text-anchor="middle" class="small">D9 → S</text>
+
+  <!-- 5V to Laser -->
+  <path d="M750 420 H800 V265 H850" class="power"/>
+  <text x="810" y="252" class="small">5V</text>
+
+  <!-- Ground bus -->
+  <path d="M450 420 H390 V620 H1050" class="wire"/>
+  <path d="M200 390 V620" class="wire"/>
+  <path d="M995 340 V620" class="wire"/>
+  <path d="M995 590 V620" class="wire"/>
+  <text x="590" y="650" text-anchor="middle" class="small">Common GND — Arduino, detector stage, laser, buzzer and grounded shield</text>
+
+  <!-- D8 to buzzer -->
+  <path d="M450 350 H410 V515 H855" class="signal"/>
+  <text x="780" y="500" class="small">D8</text>
+
+  <text x="60" y="675" class="small">Note: schematic represents the implemented project-level interconnection, not a calibrated low-noise photodiode front end.</text>
+</svg>
