@@ -2,62 +2,64 @@
 
 A low-cost experimental system for measuring **mechanical vibration frequencies using reflected laser light**, photodetection, embedded acquisition, and FFT-based signal analysis.
 
-The measurement chain is:
+**Measurement chain:**  
+Mechanical motion → reflected-beam variation → optical intensity variation → NPN-amplified detector signal → Arduino ADC acquisition → Python FFT → dominant vibration frequency
 
-**Mechanical motion → reflected-beam variation → optical intensity variation → NPN-amplified detector signal → Arduino ADC acquisition → Python FFT → dominant vibration frequency**
-
-📄 **[Full Technical Report](docs/Optical_Vibration_Sensing_Report.pdf)**
+📄 **[Read the full technical report](docs/Optical_Vibration_Sensing_Report.md)**
 
 ---
 
 ## Project Overview
 
-A continuous laser beam is reflected from a vibrating target toward a photodetector. Small target motion changes the received optical intensity. The detector signal is amplified using an NPN transistor stage and sampled by an Arduino Uno at a nominal **1 kHz** rate.
+A continuous laser beam is reflected from a vibrating target toward a photodetector. Small target motion changes the received optical intensity. The detector signal is amplified with an NPN transistor stage and sampled by an Arduino Uno at a nominal **1 kHz** rate.
 
-The samples are buffered locally to keep serial communication outside the time-critical acquisition loop. Python then removes the DC component and calculates the FFT to extract dominant spectral components.
+The samples are buffered locally so serial communication stays outside the time-critical acquisition loop. Python then removes the DC component and computes the FFT to extract the dominant spectral components.
 
-![Experimental setup](hardware/setup.jpg)
+```mermaid
+flowchart LR
+    A[Mechanical vibration] --> B[Reflected laser variation]
+    B --> C[Photodiode]
+    C --> D[NPN amplification]
+    D --> E[Arduino ADC]
+    E --> F[Buffered samples]
+    F --> G[Python FFT]
+    G --> H[Dominant frequency]
+```
 
 ### Electrical schematic
 
-![Electrical schematic](hardware/electrical_schematic.png)
+![Electrical schematic](hardware/electrical_schematic.svg)
 
 ---
 
 ## Experimental Results
 
-| Experiment | Result |
+| Experiment | Dominant measured component |
 |---|---:|
-| Cantilevered ruler | **16 Hz** dominant component |
-| Ruler + €2 added mass | **14 Hz** dominant component |
-| DC motor | **52 Hz** dominant component |
-| Piezo/buzzer validation | **124 Hz** FFT bin for a commanded 125 Hz excitation |
+| Cantilevered ruler | **16 Hz** |
+| Ruler + €2 added mass | **14 Hz** |
+| DC motor | **52 Hz** |
+| Piezo/buzzer validation | **124 Hz** for a commanded 125 Hz excitation |
 
-### Cantilevered ruler — 16 Hz
+![Measured frequency summary](results/measurement_summary.svg)
 
-The ruler was clamped as a cantilever, displaced, and released. The reflected optical signal produced a repeatable dominant spectral component at **16 Hz**.
+### Cantilevered ruler
 
-![Ruler FFT result](results/ruler_16Hz.png)
+The ruler was clamped as a cantilever, displaced, and released. The reflected optical signal produced a repeatable dominant component at **16 Hz**.
 
-### Added-mass experiment — 14 Hz
+### Added-mass experiment
 
-Adding a €2 coin near the free end shifted the strongest measured FFT bin from **16 Hz to 14 Hz**. Because this shift is one 2 Hz FFT bin and the loaded test was noisier, this result is treated as a **qualitative added-mass experiment**, not a precision measurement of the frequency shift.
+Adding a €2 coin near the free end shifted the strongest FFT bin from **16 Hz to 14 Hz**. Because the shift is one 2 Hz FFT bin and the loaded test was noisier, this result is treated as a **qualitative added-mass experiment**, not a precision measurement of the frequency shift.
 
-![Ruler with coin FFT result](results/ruler_coin_14Hz.png)
+### DC motor
 
-### DC motor — 52 Hz
+The optical system detected a dominant component near **52 Hz**, together with higher-order components near **104 Hz** and **156 Hz**.
 
-The optical system detected a dominant component at approximately **52 Hz**, together with higher-order spectral components near 104 Hz and 156 Hz.
-
-If the optical geometry produces exactly one modulation cycle per revolution, 52 Hz would correspond to approximately 3120 RPM. The frequency measurement itself is the directly observed result; the RPM conversion depends on the number of optical events per revolution.
-
-![Motor FFT result](results/motor_52Hz.png)
+If the optical geometry produces exactly one modulation cycle per revolution, 52 Hz would correspond to approximately 3120 RPM. The directly measured result is the **52 Hz optical modulation component**; the RPM conversion depends on the number of optical events per revolution.
 
 ### Piezo / buzzer validation
 
-A 125 Hz excitation was used as a controlled validation case. With a 2 Hz FFT bin spacing, the nearest reported dominant bin was **124 Hz**.
-
-![Piezo FFT result](results/piezo_124Hz.png)
+A **125 Hz** excitation was used as a controlled validation case. With a **2 Hz FFT bin spacing**, the nearest reported dominant bin was **124 Hz**.
 
 ---
 
@@ -71,22 +73,22 @@ A 125 Hz excitation was used as a controlled validation case. With a 2 Hz FFT bi
 - ADC: **10-bit Arduino Uno ADC**
 - Serial baud rate: **115200**
 
-> The 2 Hz value is the FFT bin spacing of the chosen acquisition window, not a calibrated ±2 Hz absolute accuracy specification.
+> The 2 Hz value is the FFT bin spacing of the selected analysis window, not a calibrated ±2 Hz absolute-accuracy specification.
 
 ---
 
 ## Embedded Acquisition
 
-The Arduino firmware separates data acquisition from serial transmission:
+The Arduino firmware separates acquisition from serial transmission:
 
 1. Receive an `s` command over Serial.
 2. Perform ADC settling reads.
 3. Capture and buffer 550 ADC samples at a nominal 1 ms interval.
-4. Transmit the stored block only after acquisition is complete.
+4. Transmit the block only after acquisition finishes.
 
-This avoids `Serial.println()` occupying the time-critical sampling loop.
+This prevents `Serial.println()` from occupying the time-critical sampling loop.
 
-Source: [`firmware/optical_vibration_acquisition.ino`](firmware/optical_vibration_acquisition.ino)
+**Source:** [`firmware/optical_vibration_acquisition.ino`](firmware/optical_vibration_acquisition.ino)
 
 ---
 
@@ -102,15 +104,15 @@ The Python script:
 - computes the FFT,
 - searches for the strongest spectral component above 5 Hz,
 - displays the time- and frequency-domain results,
-- saves a timestamped figure automatically.
+- saves a timestamped measurement plot.
 
-Source: [`analysis/capture_and_fft.py`](analysis/capture_and_fft.py)
+**Source:** [`analysis/capture_and_fft.py`](analysis/capture_and_fft.py)
 
 ---
 
 ## Engineering Challenges
 
-This project was developed as an experimental measurement system rather than only a working demo. Several real-world issues were investigated:
+This project was developed as an experimental measurement system rather than only a working demo. The main issues investigated were:
 
 - **50 Hz mains-related interference**
 - higher-order interference components
@@ -121,19 +123,9 @@ This project was developed as an experimental measurement system rather than onl
 - startup and settling artifacts
 - serial timing disturbances
 
-Grounded aluminum shielding significantly reduced the observed 50 Hz component in the tested configuration.
+Grounded aluminum shielding reduced the observed 50 Hz component by approximately **70%** in the tested configuration.
 
-### Example interference measurements
-
-Before shielding:
-
-![Interference before shielding](results/interference_before.png)
-
-After shielding:
-
-![Interference after shielding](results/interference_after.png)
-
-The exact physical origin of all higher-order interference components was not independently isolated; possible contributors include electrical pickup, lighting modulation, nonlinear transistor behavior, and clipping.
+The exact origin of all higher-order components was not independently isolated; possible contributors include electrical pickup, lighting modulation, nonlinear transistor behavior, and clipping.
 
 ---
 
@@ -177,7 +169,7 @@ Potential improvements include:
 
 ---
 
-## Installation
+## Quick Start
 
 Install the Python dependencies:
 
@@ -185,22 +177,22 @@ Install the Python dependencies:
 pip install -r requirements.txt
 ```
 
-Then update the serial port in:
+Update the serial port in:
 
 ```python
 SERIAL_PORT = "COM9"
-```
-
-Run:
-
-```bash
-python analysis/capture_and_fft.py
 ```
 
 Upload the Arduino firmware from:
 
 ```text
 firmware/optical_vibration_acquisition.ino
+```
+
+Then run:
+
+```bash
+python analysis/capture_and_fft.py
 ```
 
 The 125 Hz buzzer line is commented out by default. Uncomment it only when reproducing the controlled piezo/buzzer validation experiment.
@@ -220,17 +212,11 @@ optical-vibration-sensing/
 ├── analysis/
 │   └── capture_and_fft.py
 ├── hardware/
-│   ├── setup.jpg
-│   └── electrical_schematic.png
+│   └── electrical_schematic.svg
 ├── results/
-│   ├── ruler_16Hz.png
-│   ├── ruler_coin_14Hz.png
-│   ├── motor_52Hz.png
-│   ├── piezo_124Hz.png
-│   ├── interference_before.png
-│   └── interference_after.png
+│   └── measurement_summary.svg
 └── docs/
-    └── Optical_Vibration_Sensing_Report.pdf
+    └── Optical_Vibration_Sensing_Report.md
 ```
 
 ---
@@ -241,7 +227,7 @@ The project explores a general photonic sensing workflow:
 
 **physical motion → optical modulation → photodetection → embedded acquisition → frequency-domain evaluation**
 
-The full technical report discusses the relationship of this experimental workflow to optical sensing, structural vibration monitoring, and more advanced photonic sensing systems while clearly distinguishing the prototype from calibrated professional instrumentation.
+The technical report discusses how this workflow relates conceptually to optical sensing, vibration monitoring, and structural monitoring while clearly distinguishing this prototype from calibrated professional instrumentation.
 
 ---
 
