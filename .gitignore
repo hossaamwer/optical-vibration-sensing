@@ -1,0 +1,10 @@
+__pycache__/
+*.pyc
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Automatically generated plots in the working directory.
+# Curated result figures are kept explicitly under results/.
+fft_result_*.png
