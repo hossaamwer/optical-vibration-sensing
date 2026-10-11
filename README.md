@@ -27,9 +27,7 @@ flowchart LR
     G --> H[Dominant frequency]
 ```
 
-### Electrical schematic
-
-![Electrical schematic](hardware/electrical_schematic.svg)
+**Circuit files:** [`hardware/electrical_schematic.png`](hardware/electrical_schematic.png) and [`hardware/electrical_schematic.svg`](hardware/electrical_schematic.svg)
 
 ---
 
@@ -41,8 +39,6 @@ flowchart LR
 | Ruler + €2 added mass | **14 Hz** |
 | DC motor | **52 Hz** |
 | Piezo/buzzer validation | **124 Hz** for a commanded 125 Hz excitation |
-
-![Measured frequency summary](results/measurement_summary.svg)
 
 ### Cantilevered ruler
 
