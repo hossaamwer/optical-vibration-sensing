@@ -2,7 +2,7 @@
 
 A low-cost experimental system for measuring **mechanical vibration frequencies using reflected laser light**, photodetection, embedded acquisition, and FFT-based signal analysis.
 
-🔗 **[View the LinkedIn project post](https://lnkd.in/p/d7utTtXd)**
+🔗 **[View the LinkedIn project post](https://lnkd.in/p/drneHqyc)**
 
 **Measurement chain:**  
 Mechanical motion → reflected-beam variation → optical intensity variation → NPN-amplified detector signal → Arduino ADC acquisition → Python FFT → dominant vibration frequency
